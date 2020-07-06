@@ -5,44 +5,69 @@
       <h1 class="title">
         nuxt-ts-app
       </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <div class="login-form">
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input
+              v-model="email"
+              @blur="validateEmail"
+              :class="`input ${ emailError ? 'is-danger' : 'is-primary'} is-rounded is-hovered`" 
+            />
+            <span class="icon is-small is-left">
+              <font-awesome-icon icon="user"  style="font-size: 22px"/>
+            </span>
+            <span class="icon is-small is-right has-text-danger" v-if="emailError">
+              <font-awesome-icon icon="ban" class="danger" style="font-size: 22px"/>
+            </span>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input v-model="passWord" type="password" class="input is-primary is-rounded is-hovered" />
+            <span class="icon is-small is-left">
+              <font-awesome-icon icon="lock"  style="font-size: 22px"/>
+            </span>
+          </p>
+        </div>
+        <button class="button is-primary" @click="signInHandle">Log In</button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { passwordStrength } from '../lib/ultil'
 
-export default Vue.extend({})
+@Component
+export default class LogIn extends Vue {
+  email: string = ''
+  passWord: string = ''
+  passErrors: boolean = false
+  emailError: boolean = false
+  $router: any
+  get newPasswordStrength(): string {
+    return passwordStrength(this.passWord);
+  }
+  onNewPasswordBlur() {
+    if (this.newPasswordStrength !== 'weak') {
+      this.passErrors = false;
+    } else {
+      this.passErrors = true;
+    }
+  }
+  signInHandle() {
+    if(this.email !== '' && this.passWord !== '') {
+      this.$router.push({ path: '/users/1' });
+    }
+  }
+  validateEmail() {
+    this.emailError = !(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.email));
+  }
+}
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
 .title {
   font-family:
     'Quicksand',
@@ -69,7 +94,7 @@ export default Vue.extend({})
   padding-bottom: 15px;
 }
 
-.links {
+.login-form {
   padding-top: 15px;
 }
 </style>
