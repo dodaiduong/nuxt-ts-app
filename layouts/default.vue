@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main has-background-light">
     <Nuxt />
   </div>
 </template>

@@ -29,7 +29,7 @@ export default {
   ** Global CSS
   */
   css: [
-    '~/assets/css/common.css',
+    '~/assets/css/common.scss',
     '@fortawesome/fontawesome-svg-core/styles.css'
   ],
   /*
@@ -38,6 +38,7 @@ export default {
   */
   plugins: [
     '~/plugins/fontawesome.js',
+    '~/plugins/gravatar.js',
   ],
   /*
   ** Auto import components
