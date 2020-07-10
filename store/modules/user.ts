@@ -20,6 +20,7 @@ const getters: GetterTree<State, any> = {
 interface Actions<S, R> extends ActionTree<S, R> {
   signIn: (context: ActionContext<S, R>, data: { email: string; password: string }) => void;
   changeDisplayName: (context: ActionContext<S, R>, name: string ) => void;
+  changeEmail: (context: ActionContext<S, R>, email: string ) => void;
   changePassword: (context: ActionContext<S, R>, data: { currentPass: string; newPass: string }) => void;
 };
 
@@ -30,6 +31,9 @@ const actions: Actions<State, any> = {
   },
   changeDisplayName({ commit }, name) {
     commit("setDisplayName", name);
+  },
+  changeEmail({ commit }, email) {
+    commit("setEmail", email);
   },
   changePassword({ commit, state }, data) {
     if(state.password == data.currentPass) {
